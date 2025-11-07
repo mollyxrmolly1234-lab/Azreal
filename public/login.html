@@ -3,164 +3,488 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AZREAL 5.0 BY PARASITE</title>
+<title>AZREAL V5 BETA</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 body{
-  height:100vh;
-  background:url('https://files.catbox.moe/xxd43e.jpeg') no-repeat center center/cover;
+  font-family:'Rajdhani',sans-serif;
+  background:#000;
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
   color:#fff;
+  padding:15px;
   position:relative;
+  overflow-x:hidden;
 }
+
 body::before{
   content:'';
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  z-index:0;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:url('https://files.catbox.moe/tw8ovl.jpeg') center/cover no-repeat fixed;
+  z-index:1;
+  filter:brightness(0.4) contrast(1.2);
 }
-.cross{
-  position:absolute;
-  color:#a020f0;
-  opacity:0.2;
-  font-size:20px;
-  animation:float linear infinite;
-}
-@keyframes float{
-  0%{transform:translateY(100vh) rotate(0deg);opacity:0.2;}
-  50%{opacity:0.7;}
-  100%{transform:translateY(-120vh) rotate(360deg);opacity:0.2;}
-}
-.title{
-  position:absolute;
-  top:40px;
-  color:#c86bfa;
-  font-size:2rem;
-  letter-spacing:3px;
-  text-shadow:0 0 15px #b44cff,0 0 30px #b44cff,0 0 45px #c86bfa;
-  animation:flicker 3s infinite;
+
+body::after{
+  content:'';
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.03), transparent 50%),
+             radial-gradient(circle at 80% 20%, rgba(138,43,226,0.05), transparent 40%);
   z-index:2;
 }
-@keyframes flicker{
-  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
-  20%,24%,55%{opacity:0.3;}
+
+canvas#bg{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  z-index:3;
+  pointer-events:none;
+  opacity:0.3;
 }
-.card{
+
+.container{
   position:relative;
-  z-index:2;
-  width:90%;
-  max-width:350px;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(10px);
-  border-radius:15px;
-  padding:30px;
-  box-shadow:0 0 25px rgba(180,76,255,0.4);
+  z-index:10;
+  width:100%;
+  max-width:440px;
+}
+
+.card{
+  background:rgba(10,10,20,0.7);
+  backdrop-filter:blur(25px) saturate(150%);
+  -webkit-backdrop-filter:blur(25px) saturate(150%);
+  border:1px solid rgba(0,229,255,0.2);
+  border-radius:20px;
+  padding:35px 25px 30px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6),
+             0 0 0 1px rgba(255,255,255,0.03) inset,
+             0 0 60px rgba(0,229,255,0.15);
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:linear-gradient(45deg, transparent, rgba(0,229,255,0.03), transparent);
+  transform:rotate(45deg);
+  animation:shimmer 6s infinite;
+}
+
+@keyframes shimmer{
+  0%{transform:translateX(-100%) translateY(-100%) rotate(45deg);}
+  100%{transform:translateX(100%) translateY(100%) rotate(45deg);}
+}
+
+.header{
   text-align:center;
+  margin-bottom:30px;
+  position:relative;
 }
-.card h2{
-  color:#c86bfa;
-  margin-bottom:20px;
-  text-shadow:0 0 15px #b44cff;
-}
-.form-group{
+
+.logo-container{
+  display:inline-block;
+  position:relative;
   margin-bottom:15px;
+}
+
+.logo-ring{
+  width:90px;
+  height:90px;
+  border:2px solid rgba(0,229,255,0.4);
+  border-radius:50%;
   display:flex;
   align-items:center;
-  border:1px solid #b44cff;
-  border-radius:8px;
-  padding:0 10px;
-  background:rgba(0,0,0,0.5);
-  height:40px;
+  justify-content:center;
+  margin:0 auto 20px;
+  position:relative;
+  background:rgba(0,229,255,0.05);
+  box-shadow:0 0 30px rgba(0,229,255,0.3),
+             0 0 0 1px rgba(0,229,255,0.1) inset;
+  animation:pulse 3s ease-in-out infinite;
 }
-.form-group input{
+
+@keyframes pulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 30px rgba(0,229,255,0.3);}
+  50%{transform:scale(1.05);box-shadow:0 0 50px rgba(0,229,255,0.5);}
+}
+
+.logo-ring img{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid rgba(0,229,255,0.3);
+}
+
+.site-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:4px;
+  background:linear-gradient(135deg, #00e5ff 0%, #7c4dff 50%, #00e5ff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+  animation:gradientShift 3s linear infinite;
+  text-shadow:0 0 30px rgba(0,229,255,0.5);
+}
+
+@keyframes gradientShift{
+  0%{background-position:0% center;}
+  100%{background-position:200% center;}
+}
+
+.version-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'Orbitron',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:#00e5ff;
+  background:rgba(0,229,255,0.1);
+  border:1px solid rgba(0,229,255,0.3);
+  padding:6px 14px;
+  border-radius:20px;
+  box-shadow:0 0 20px rgba(0,229,255,0.2);
+}
+
+.version-badge i{
+  font-size:8px;
+  animation:blink 2s ease-in-out infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.3;}
+}
+
+.divider{
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
+  margin:25px 0;
+}
+
+.subtitle{
+  text-align:center;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:2px;
+  color:rgba(255,255,255,0.6);
+  text-transform:uppercase;
+  margin-bottom:25px;
+}
+
+.form-group{
+  margin-bottom:16px;
+  position:relative;
+}
+
+.input-wrapper{
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:0 16px;
+  height:52px;
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+  overflow:hidden;
+}
+
+.input-wrapper::before{
+  content:'';
+  position:absolute;
+  top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg, transparent, rgba(0,229,255,0.1), transparent);
+  transition:left 0.5s;
+}
+
+.input-wrapper:hover::before{
+  left:100%;
+}
+
+.input-wrapper:hover{
+  background:rgba(255,255,255,0.05);
+  border-color:rgba(0,229,255,0.2);
+}
+
+.input-wrapper:focus-within{
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(0,229,255,0.5);
+  box-shadow:0 0 0 3px rgba(0,229,255,0.1),
+             0 0 20px rgba(0,229,255,0.2);
+  transform:translateY(-2px);
+}
+
+.input-wrapper .icon{
+  color:rgba(0,229,255,0.6);
+  font-size:17px;
+  transition:all 0.3s ease;
+  min-width:20px;
+}
+
+.input-wrapper:focus-within .icon{
+  color:#00e5ff;
+  transform:scale(1.1);
+}
+
+.input-wrapper input{
   flex:1;
   border:none;
   outline:none;
   background:transparent;
   color:#fff;
-  font-size:14px;
-  padding-left:10px;
+  font-size:15px;
+  font-weight:500;
+  padding-left:14px;
+  font-family:'Rajdhani',sans-serif;
 }
-.form-group .icon{
-  color:#b44cff;
-  font-size:16px;
+
+.input-wrapper input::placeholder{
+  color:rgba(255,255,255,0.35);
+  font-weight:400;
 }
+
 button{
   width:100%;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:8px;
-  font-size:15px;
-  background:#b44cff;
-  box-shadow:0 0 25px #b44cff, 0 0 50px #a020f0 inset;
-  animation:pulse 2s infinite;
-  transition:0.3s;
-}
-@keyframes pulse{
-  0%{box-shadow:0 0 15px #b44cff;}
-  50%{box-shadow:0 0 35px #a020f0, 0 0 60px #b44cff inset;}
-  100%{box-shadow:0 0 15px #b44cff;}
-}
-button:hover{
-  background:#a020f0;
-}
-.result{
-  margin-top:12px;
-  padding:10px;
-  border-radius:8px;
+  padding:16px;
+  background:linear-gradient(135deg, rgba(0,229,255,0.2), rgba(124,77,255,0.2));
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,229,255,0.4);
+  border-radius:12px;
+  color:#00e5ff;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
   font-size:14px;
-  display:none;
-  text-align:left;
-  line-height:1.4em;
+  cursor:pointer;
+  margin-top:20px;
+  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 20px rgba(0,229,255,0.3);
 }
-.result.success{background:rgba(0,255,0,0.1);color:#0f0;border:1px solid #0f0;}
-.result.error{background:rgba(255,0,0,0.1);color:#f55;border:1px solid red;}
+
+button::before{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  width:0;height:0;
+  border-radius:50%;
+  background:rgba(0,229,255,0.3);
+  transform:translate(-50%,-50%);
+  transition:width 0.6s, height 0.6s;
+}
+
+button:hover::before{
+  width:400px;
+  height:400px;
+}
+
+button:hover{
+  background:linear-gradient(135deg, rgba(0,229,255,0.3), rgba(124,77,255,0.3));
+  border-color:rgba(0,229,255,0.6);
+  box-shadow:0 0 30px rgba(0,229,255,0.5);
+  transform:translateY(-3px);
+  color:#fff;
+}
+
+button:active{
+  transform:translateY(-1px);
+}
+
+button:disabled{
+  background:rgba(255,255,255,0.05);
+  border-color:rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.3);
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
+}
+
+button span{
+  position:relative;
+  z-index:1;
+}
+
+.contact-btn{
+  margin-top:15px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.7);
+  font-size:13px;
+  padding:13px;
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.contact-btn:hover{
+  background:rgba(255,255,255,0.05);
+  border-color:rgba(255,255,255,0.2);
+  color:#fff;
+  box-shadow:0 0 20px rgba(255,255,255,0.1);
+}
+
+.result{
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:500;
+  display:none;
+  line-height:1.5;
+  backdrop-filter:blur(10px);
+  animation:slideDown 0.3s ease;
+}
+
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.result.success{
+  background:rgba(0,255,150,0.1);
+  color:#00ff96;
+  border:1px solid rgba(0,255,150,0.3);
+  box-shadow:0 0 20px rgba(0,255,150,0.2);
+}
+
+.result.error{
+  background:rgba(255,80,80,0.1);
+  color:#ff6b6b;
+  border:1px solid rgba(255,80,80,0.3);
+  box-shadow:0 0 20px rgba(255,80,80,0.2);
+}
+
+@media (max-width:480px){
+  body{padding:10px;}
+  .card{padding:30px 20px 25px;}
+  .site-title{font-size:26px;letter-spacing:3px;}
+  .logo-ring{width:80px;height:80px;}
+  .logo-ring img{width:60px;height:60px;}
+  .version-badge{font-size:10px;padding:5px 12px;}
+  .input-wrapper{height:48px;padding:0 14px;}
+  button{padding:14px;font-size:13px;}
+}
+
+@media (max-width:360px){
+  .site-title{font-size:24px;letter-spacing:2px;}
+  .card{padding:25px 18px 22px;}
+}
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 
-<div class="title">HOLY MEN LIVE</div>
-
-<div class="card">
-  <h2><i class="fa-solid fa-user-shield"></i> AZREAL 5.0</h2>
-  <form id="loginForm">
-    <div class="form-group">
-      <i class="fas fa-user icon"></i>
-      <input type="text" id="username" placeholder="Username" autocomplete="off">
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="logo-ring">
+        <img src="https://i.imgur.com/BpBph7h.jpeg" alt="Avatar">
+      </div>
+      <div class="site-title">AZREAL V5</div>
+      <div class="version-badge">
+        <i class="fas fa-circle"></i>
+        <span>BETA</span>
+      </div>
     </div>
-    <div class="form-group">
-      <i class="fas fa-lock icon"></i>
-      <input type="password" id="password" placeholder="Password" autocomplete="off">
+    
+    <div class="divider"></div>
+    
+    <div class="subtitle">
+      <i class="fas fa-lock"></i> Secure Access Portal
     </div>
-    <button id="loginBtn" type="submit">CONTACT DEV</button>
-  </form>
-  <div id="result" class="result"></div>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <div class="input-wrapper">
+          <i class="fas fa-user icon"></i>
+          <input type="text" id="username" placeholder="Enter Username" autocomplete="off">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="input-wrapper">
+          <i class="fas fa-key icon"></i>
+          <input type="password" id="password" placeholder="Enter Password" autocomplete="off">
+        </div>
+      </div>
+      
+      <button id="loginBtn" type="submit">
+        <span><i class="fa-solid fa-right-to-bracket"></i> Initialize Access</span>
+      </button>
+    </form>
+    
+    <div id="result" class="result"></div>
+    
+    <a href="https://wa.me/message/IEWVIVAM4U25G1" target="_blank" style="text-decoration:none;">
+      <button type="button" class="contact-btn">
+        <span><i class="fa-brands fa-whatsapp"></i> Contact Dev</span>
+      </button>
+    </a>
+  </div>
 </div>
 
+<script src="https://kit.fontawesome.com/a2e0e6ad5b.js" crossorigin="anonymous"></script>
 <script>
-// moving crosses
-for(let i=0;i<30;i++){
-  const cross=document.createElement('div');
-  cross.className='cross';
-  cross.textContent='✝';
-  cross.style.left=Math.random()*100+'vw';
-  cross.style.animationDuration=(6+Math.random()*14)+'s';
-  cross.style.fontSize=(14+Math.random()*25)+'px';
-  document.body.appendChild(cross);
-}
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
 
-// redirect if already logged in
+function resizeCanvas(){
+  canvas.height=window.innerHeight;
+  canvas.width=window.innerWidth;
+}
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+const chars="01ABCDEFGHJKMNPRSTUVWXYZ";
+const fontSize=14;
+let columns=Math.floor(canvas.width/fontSize);
+let drops=Array(columns).fill(1);
+
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  
+  const gradient=ctx.createLinearGradient(0,0,0,canvas.height);
+  gradient.addColorStop(0,"rgba(0,229,255,0.8)");
+  gradient.addColorStop(1,"rgba(124,77,255,0.8)");
+  ctx.fillStyle=gradient;
+  ctx.font=fontSize+"px 'Courier New', monospace";
+  
+  for(let i=0;i<drops.length;i++){
+    const text=chars.charAt(Math.floor(Math.random()*chars.length));
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.98) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw,50);
+
 if(localStorage.getItem('authToken')) window.location.href='index.html';
 
 document.getElementById('loginForm').addEventListener('submit',async(e)=>{
@@ -170,14 +494,11 @@ document.getElementById('loginForm').addEventListener('submit',async(e)=>{
   const resultDiv=document.getElementById('result');
   const loginBtn=document.getElementById('loginBtn');
 
-  if(!username||!password){
-    // send to WhatsApp if missing password
-    window.location.href='https://wa.me/2349160328347?text=Hello%20Dev%2C%20I%20need%20access%20to%20AZREAL%205.0';
-    return;
-  }
+  if(!username||!password) return showResult('Authentication credentials required.','error');
 
-  loginBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-  loginBtn.disabled=true; resultDiv.style.display='none';
+  loginBtn.innerHTML='<span><i class="fa-solid fa-spinner fa-spin"></i> Authenticating...</span>';
+  loginBtn.disabled=true;
+  resultDiv.style.display='none';
 
   try{
     const res=await fetch('/api/login',{
@@ -189,14 +510,16 @@ document.getElementById('loginForm').addEventListener('submit',async(e)=>{
 
     if(data.success){
       localStorage.setItem('authToken',data.token);
-      showResult('Access Granted ⚡','success');
+      showResult('✓ Authentication successful. Initializing system...','success');
       setTimeout(()=>{window.location.href='index.html';},1500);
-    }else showResult(data.message,'error');
+    }else{
+      showResult(`✗ ${data.message}`,'error');
+    }
   }catch(err){
     console.error('Login error:',err);
-    showResult('Server error. Please try again.','error');
+    showResult('✗ System error. Connection failed.','error');
   }finally{
-    loginBtn.innerHTML='CONTACT DEV';
+    loginBtn.innerHTML='<span><i class="fa-solid fa-right-to-bracket"></i> Initialize Access</span>';
     loginBtn.disabled=false;
   }
 });
