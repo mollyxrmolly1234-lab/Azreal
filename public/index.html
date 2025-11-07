@@ -3,112 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home</title>
+<title>AZREAL V5 - Dashboard</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-body{background:#000;height:100vh;overflow:hidden;color:#fff;}
-canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;position:relative;}
-.card{background:rgba(20,20,20,0.85);border:1px solid red;border-radius:15px;padding:30px;width:380px;text-align:center;box-shadow:0 0 25px rgba(255,0,0,0.7);}
-.card h2{color:red;margin-bottom:15px;}
-.card .info{font-size:14px;text-align:left;line-height:1.6;}
-.card .info b{color:red;}
-.banner{background:rgba(255,0,0,0.2);padding:15px;border-radius:12px;margin-bottom:20px;width:100%;text-align:center;}
-.banner p{margin:5px 0;font-size:16px;}
-.menu-btn{position:fixed;top:20px;left:20px;font-size:28px;color:red;cursor:pointer;z-index:1001;transition:0.3s;}
-.sidebar{position:fixed;top:0;left:-260px;width:260px;height:100%;background:#111;border-right:2px solid red;box-shadow:2px 0 20px rgba(255,0,0,0.5);padding:20px;transition:0.4s;z-index:1002;display:flex;flex-direction:column;}
-.sidebar.active{left:0;}
-.sidebar .user-info{display:flex;align-items:center;margin-bottom:20px;}
-.sidebar .user-info i{font-size:24px;color:red;margin-right:10px;}
-.sidebar .user-info div{display:flex;flex-direction:column;}
-.sidebar h3{margin:12px 0;font-size:16px;}
-.sidebar h3 a{color:#f55;text-decoration:none;display:flex;align-items:center;gap:10px;}
-.sidebar h3 a i{font-size:18px;flex-shrink:0;}
-#backdrop{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:none;z-index:1000;opacity:0;}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Rajdhani',sans-serif;
+  background:#000;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:#fff;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:url('https://files.catbox.moe/mzhj99.jpeg') center/cover no-repeat fixed;
+  z-index:1;
+  filter:brightness(0.65) contrast(1.05);
+}
+
+body::after{
+  content:'';
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.015), transparent 65%);
+  z-index:2;
+}
+
+canvas#bg{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  z-index:3;
+  pointer-events:none;
+  opacity:0.2;
+}
+
+.menu-btn{
+  position:fixed;
+  top:20px;
+  left:20px;
+  font-size:28px;
+  color:#00e5ff;
+  cursor:pointer;
+  z-index:1001;
+  transition:all 0.3s ease;
+  background:rgba(5,5,15,0.5);
+  backdrop-filter:blur(10px);
+  width:50px;
+  height:50px;
+  border-radius:12px;
+  border:1px solid rgba(0,229,255,0.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.menu-btn:hover{
+  background:rgba(0,229,255,0.1);
+  border-color:rgba(0,229,255,0.5);
+  box-shadow:0 0 20px rgba(0,229,255,0.3);
+}
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:-300px;
+  width:280px;
+  height:100%;
+  background:rgba(5,5,15,0.95);
+  backdrop-filter:blur(20px);
+  border-right:1px solid rgba(0,229,255,0.3);
+  box-shadow:2px 0 30px rgba(0,229,255,0.2);
+  padding:25px 20px;
+  transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index:1002;
+  overflow-y:auto;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.sidebar-header{
+  text-align:center;
+  margin-bottom:30px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(0,229,255,0.2);
+}
+
+.sidebar-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:3px;
+  background:linear-gradient(135deg, #00e5ff, #7c4dff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:5px;
+}
+
+.sidebar-subtitle{
+  font-size:11px;
+  color:rgba(255,255,255,0.5);
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.user-info{
+  background:rgba(0,229,255,0.05);
+  border:1px solid rgba(0,229,255,0.2);
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:25px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.user-info-icon{
+  width:45px;
+  height:45px;
+  background:linear-gradient(135deg, rgba(0,229,255,0.2), rgba(124,77,255,0.2));
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  color:#00e5ff;
+  border:1px solid rgba(0,229,255,0.3);
+}
+
+.user-info-text{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.user-info-name{
+  font-weight:700;
+  font-size:16px;
+  color:#fff;
+  font-family:'Orbitron',sans-serif;
+}
+
+.user-info-role{
+  font-size:12px;
+  color:#00e5ff;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.sidebar-nav{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 15px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  color:rgba(255,255,255,0.7);
+  text-decoration:none;
+  font-size:15px;
+  font-weight:500;
+  transition:all 0.2s ease;
+  cursor:pointer;
+}
+
+.nav-item i{
+  font-size:18px;
+  width:20px;
+  text-align:center;
+  color:#00e5ff;
+}
+
+.nav-item:hover{
+  background:rgba(0,229,255,0.1);
+  border-color:rgba(0,229,255,0.3);
+  color:#fff;
+  transform:translateX(5px);
+}
+
+.nav-item.logout{
+  margin-top:15px;
+  border-color:rgba(255,80,80,0.3);
+  color:rgba(255,80,80,0.8);
+}
+
+.nav-item.logout i{
+  color:#ff6b6b;
+}
+
+.nav-item.logout:hover{
+  background:rgba(255,80,80,0.1);
+  border-color:rgba(255,80,80,0.5);
+  color:#ff6b6b;
+}
+
+#backdrop{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(3px);
+  display:none;
+  z-index:1000;
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+
+#backdrop.active{
+  opacity:1;
+}
+
+.center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  position:relative;
+  z-index:10;
+  padding:20px;
+}
+
+.card{
+  background:rgba(5,5,15,0.35);
+  backdrop-filter:blur(18px) saturate(140%);
+  border:1px solid rgba(0,229,255,0.2);
+  border-radius:20px;
+  padding:35px 30px;
+  width:100%;
+  max-width:480px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),
+             0 0 40px rgba(0,229,255,0.08);
+  text-align:center;
+}
+
+.banner{
+  background:rgba(0,229,255,0.05);
+  border:1px solid rgba(0,229,255,0.2);
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:30px;
+}
+
+.banner-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.banner-row:last-child{
+  border-bottom:none;
+}
+
+.banner-label{
+  font-size:13px;
+  color:rgba(255,255,255,0.6);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:600;
+}
+
+.banner-value{
+  font-family:'Orbitron',sans-serif;
+  font-size:14px;
+  color:#00e5ff;
+  font-weight:600;
+}
+
+.card-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:2px;
+  background:linear-gradient(135deg, #00e5ff, #7c4dff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:20px;
+}
+
+.credits{
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.credit-item{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+  padding:12px 15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  transition:all 0.2s ease;
+}
+
+.credit-item:hover{
+  background:rgba(0,229,255,0.05);
+  border-color:rgba(0,229,255,0.2);
+}
+
+.credit-name{
+  font-weight:700;
+  color:#00e5ff;
+  font-size:15px;
+  min-width:100px;
+}
+
+.credit-role{
+  color:rgba(255,255,255,0.7);
+  font-size:14px;
+}
+
+@media (max-width:480px){
+  .card{
+    padding:30px 25px;
+  }
+  .sidebar{
+    width:260px;
+  }
+  .banner{
+    padding:15px;
+  }
+  .banner-label,.banner-value{
+    font-size:12px;
+  }
+}
 </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
+
 <div id="backdrop" onclick="toggleSidebar()"></div>
-<div class="menu-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></div>
-<div class="sidebar" id="sidebar">
-  <div class="user-info">
-    <i class="fa-solid fa-user-shield"></i>
-    <div><span id="sidebarUsername">User</span><span id="sidebarRole">VIP</span></div>
-  </div>
-  <h3><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></h3>
-  <h3><a href="bug.html"><i class="fa-solid fa-bug"></i> Bug Attack</a></h3>
-  <h3><a href="ddos.html"><i class="fa-solid fa-bolt"></i> DDoS Attack</a></h3>
-  <h3><a href="track.html"><i class="fa-solid fa-location-dot"></i> Tracking IP</a></h3>
-  <h3><a href="contac.html"><i class="fa-solid fa-envelope"></i> Contact</a></h3>
-  <h3><a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Log out</a></h3>
+
+<div class="menu-btn" onclick="toggleSidebar()">
+  <i class="fa-solid fa-bars"></i>
 </div>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">AZREAL V5</div>
+    <div class="sidebar-subtitle">Beta Access</div>
+  </div>
+  
+  <div class="user-info">
+    <div class="user-info-icon">
+      <i class="fa-solid fa-user-shield"></i>
+    </div>
+    <div class="user-info-text">
+      <span class="user-info-name" id="sidebarUsername">User</span>
+      <span class="user-info-role" id="sidebarRole">VIP</span>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Dashboard</span>
+    </a>
+    <a href="bug.html" class="nav-item">
+      <i class="fa-solid fa-bug"></i>
+      <span>Bug Attack</span>
+    </a>
+    <a href="ddos.html" class="nav-item">
+      <i class="fa-solid fa-bolt"></i>
+      <span>DDoS Attack</span>
+    </a>
+    <a href="track.html" class="nav-item">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>IP Tracking</span>
+    </a>
+    <a href="contac.html" class="nav-item">
+      <i class="fa-solid fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+    <a href="#" onclick="logout()" class="nav-item logout">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</div>
+
 <div class="center">
   <div class="card">
     <div class="banner">
-      <p><b>Username:</b> <span id="bannerUsername">User</span></p>
-      <p><b>Password:</b> <span>******</span></p>
-      <p><b>Role:</b> <span id="bannerRole">VIP</span></p>
-      <p><b>Expired:</b> <span>-</span></p>
+      <div class="banner-row">
+        <span class="banner-label">Username</span>
+        <span class="banner-value" id="bannerUsername">User</span>
+      </div>
+      <div class="banner-row">
+        <span class="banner-label">Password</span>
+        <span class="banner-value">••••••</span>
+      </div>
+      <div class="banner-row">
+        <span class="banner-label">Role</span>
+        <span class="banner-value" id="bannerRole">VIP</span>
+      </div>
+      <div class="banner-row">
+        <span class="banner-label">Expired</span>
+        <span class="banner-value">Never</span>
+      </div>
     </div>
-    <h2>Team & Credits</h2>
-    <p class="info"><b>Dimzxzzx:</b> Website Builder</p>
-    <p class="info"><b>AI:</b> Helper</p>
-    <p class="info"><b>XP - Community:</b> My Team</p>
+
+    <h2 class="card-title">Team & Credits</h2>
+    
+    <div class="credits">
+      <div class="credit-item">
+        <span class="credit-name">Dimzxzzx</span>
+        <span class="credit-role">Website Builder</span>
+      </div>
+      <div class="credit-item">
+        <span class="credit-name">AI</span>
+        <span class="credit-role">Development Assistant</span>
+      </div>
+      <div class="credit-item">
+        <span class="credit-name">XP Community</span>
+        <span class="credit-role">Team Support</span>
+      </div>
+    </div>
   </div>
 </div>
+
 <script>
+// Sidebar toggle
 function toggleSidebar(){
   const sidebar=document.getElementById('sidebar');
   const backdrop=document.getElementById('backdrop');
-  sidebar.classList.toggle('active');
-  backdrop.style.display = sidebar.classList.contains('active')?'block':'none';
+  const isActive=sidebar.classList.toggle('active');
+  
+  if(isActive){
+    backdrop.style.display='block';
+    setTimeout(()=>backdrop.classList.add('active'),10);
+  }else{
+    backdrop.classList.remove('active');
+    setTimeout(()=>backdrop.style.display='none',300);
+  }
 }
+
+// Close sidebar when clicking nav items
 document.querySelectorAll("#sidebar a").forEach(link=>{
   link.addEventListener("click",()=>{
-    document.getElementById("sidebar").classList.remove("active");
-    document.getElementById("backdrop").style.display="none";
+    const sidebar=document.getElementById("sidebar");
+    const backdrop=document.getElementById("backdrop");
+    sidebar.classList.remove("active");
+    backdrop.classList.remove("active");
+    setTimeout(()=>backdrop.style.display="none",300);
   });
 });
+
+// Logout function
 function logout(){
   localStorage.removeItem('authToken');
   window.location.href='login.html';
 }
-const token = localStorage.getItem('authToken');
-if(!token){window.location.href='login.html';}
+
+// Auth check
+const token=localStorage.getItem('authToken');
+if(!token){
+  window.location.href='login.html';
+}
+
+// Load user info
 function loadUserInfo(){
   try{
-    const payload = JSON.parse(atob(token));
-    document.getElementById('bannerUsername').textContent = payload.username || 'User';
-    document.getElementById('bannerRole').textContent = payload.role || 'VIP';
-    document.getElementById('sidebarUsername').textContent = payload.username || 'User';
-    document.getElementById('sidebarRole').textContent = payload.role || 'VIP';
+    const payload=JSON.parse(atob(token.split('.')[1]||token));
+    document.getElementById('bannerUsername').textContent=payload.username||'User';
+    document.getElementById('bannerRole').textContent=payload.role||'VIP';
+    document.getElementById('sidebarUsername').textContent=payload.username||'User';
+    document.getElementById('sidebarRole').textContent=payload.role||'VIP';
   }catch(e){
-    logout();
+    // Fallback for simple tokens
+    document.getElementById('bannerUsername').textContent='User';
+    document.getElementById('bannerRole').textContent='VIP';
+    document.getElementById('sidebarUsername').textContent='User';
+    document.getElementById('sidebarRole').textContent='VIP';
   }
 }
-document.addEventListener('DOMContentLoaded', loadUserInfo);
-const canvas=document.getElementById("bg"),ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-let points=[];
-for(let i=0;i<70;i++){points.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:Math.random()-0.5,vy:Math.random()-0.5});}
-function anim(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  points.forEach((p,i)=>{
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0||p.x>canvas.width)p.vx*=-1;
-    if(p.y<0||p.y>canvas.height)p.vy*=-1;
-    ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fillStyle="red";ctx.fill();
-    for(let j=i+1;j<points.length;j++){
-      let q=points[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<120){ctx.strokeStyle="rgba(255,0,0,0.2)";ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}
-    }
-  });
-  requestAnimationFrame(anim);
+
+document.addEventListener('DOMContentLoaded',loadUserInfo);
+
+// Matrix background effect
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+  canvas.height=window.innerHeight;
+  canvas.width=window.innerWidth;
 }
-anim();
-window.addEventListener("resize",()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+resizeCanvas();
+window.addEventListener("resize",resizeCanvas);
+
+const chars="01ABCDEFGHJKMNPRSTUVWXYZ";
+const fontSize=14;
+let columns=Math.floor(canvas.width/fontSize);
+let drops=Array(columns).fill(1);
+
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  
+  const gradient=ctx.createLinearGradient(0,0,0,canvas.height);
+  gradient.addColorStop(0,"rgba(0,229,255,0.8)");
+  gradient.addColorStop(1,"rgba(124,77,255,0.8)");
+  ctx.fillStyle=gradient;
+  ctx.font=fontSize+"px 'Courier New', monospace";
+  
+  for(let i=0;i<drops.length;i++){
+    const text=chars.charAt(Math.floor(Math.random()*chars.length));
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.98) drops[i]=0;
+    drops[i]++;
+  }
+}
+
+setInterval(draw,60);
 </script>
 </body>
 </html>
