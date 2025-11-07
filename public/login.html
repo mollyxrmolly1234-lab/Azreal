@@ -1,292 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>AZREAL 5.0 BY PARASITE - LOGIN</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',Arial,Helvetica,sans-serif;}
-body{
-  background:#000;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  padding:10px;
-  position:relative;
-}
-canvas#bg,canvas#crosses{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  z-index:-2;
-}
-#bgOverlay{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:url('https://files.catbox.moe/awlec2.jpeg') center/cover no-repeat;
-  opacity:0.12;
-  filter:blur(3px);
-  z-index:-1;
-}
-.card{
-  background:rgba(10,10,10,0.85);
-  border:1px solid red;
-  border-radius:15px;
-  padding:30px;
-  width:100%;
-  max-width:370px;
-  text-align:center;
-  box-shadow:0 0 35px rgba(255,0,0,0.7);
-  position:relative;
-  animation:fadeIn 2s ease;
-}
-.card::before{
-  content:'';
-  position:absolute;
-  top:-2px;left:-2px;right:-2px;bottom:-2px;
-  border-radius:15px;
-  background:linear-gradient(45deg,red,transparent,red);
-  z-index:-1;
-  animation:glowBorder 3s linear infinite;
-}
-.card img.avatar{
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid red;
-  margin-bottom:20px;
-  animation:pulse 2.5s infinite;
-}
-.card h2{
-  color:red;
-  margin-bottom:10px;
-  font-size:22px;
-  text-shadow:0 0 10px red;
-  animation:glitch 2s infinite;
-}
-.subtitle{
-  font-size:11px;
-  color:#999;
-  margin-bottom:20px;
-  letter-spacing:2px;
-}
-.form-group{
-  margin-bottom:15px;
-  display:flex;
-  align-items:center;
-  border:1px solid red;
-  border-radius:8px;
-  padding:0 10px;
-  background:#111;
-  height:40px;
-}
-.form-group input{
-  flex:1;
-  border:none;
-  outline:none;
-  background:transparent;
-  color:#fff;
-  font-size:14px;
-  padding-left:10px;
-}
-.form-group .icon{
-  color:red;
-  font-size:16px;
-}
-button{
-  width:100%;
-  padding:12px;
-  background:red;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:8px;
-  box-shadow:0 0 15px red;
-  transition:0.2s;
-  font-size:15px;
-}
-button:hover{background:#ff3333;}
-button:disabled{background:#222;box-shadow:none;cursor:not-allowed;}
-.result{
-  margin-top:12px;
-  padding:10px;
-  border-radius:8px;
-  font-size:14px;
-  display:none;
-  text-align:left;
-  line-height:1.4em;
-}
-.result.success{background:rgba(0,255,0,0.1);color:#0f0;border:1px solid #0f0;}
-.result.error{background:rgba(255,0,0,0.1);color:#f55;border:1px solid red;}
-#holyText{
-  position:fixed;
-  bottom:20px;
-  width:100%;
-  text-align:center;
-  font-size:14px;
-  color:red;
-  text-shadow:0 0 10px red;
-  animation:flicker 3s infinite;
-  letter-spacing:3px;
-  font-family:'Orbitron',monospace;
-}
-@keyframes glowBorder{
-  0%{filter:hue-rotate(0deg);}
-  100%{filter:hue-rotate(360deg);}
-}
-@keyframes flicker{
-  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
-  20%,24%,55%{opacity:0.3;}
-}
-@keyframes glitch{
-  0%{text-shadow:2px 0 red,-2px 0 #0ff;}
-  50%{text-shadow:-2px 0 red,2px 0 #0ff;}
-  100%{text-shadow:2px 0 red,-2px 0 #0ff;}
-}
-@keyframes pulse{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.05);}
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-@media (max-width:400px){
-  .card{padding:20px;}
-  input,button{font-size:13px;padding:10px;}
-  .card h2{font-size:18px;}
-  .card img.avatar{width:80px;height:80px;}
-}
+  /* ---- base ---- */
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
+  html,body{height:100%}
+  body{
+    background:#000;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    padding:20px;
+    position:relative;
+  }
+
+  /* ---- bold background image (cover, vivid) ---- */
+  :root{
+    --bg-url: url('https://files.catbox.moe/awlec2.jpeg'); /* change to your hosted image if needed */
+  }
+  .bg{
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)),
+      var(--bg-url);
+    background-size:cover;
+    background-position:center;
+    filter:contrast(120%) saturate(120%);
+    z-index:-3;
+  }
+
+  /* ---- moving skulls (subtle, animated) ---- */
+  .skull-layer{
+    position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:0.12;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,0,0,0.05), transparent 6%),
+      radial-gradient(circle at 85% 70%, rgba(255,255,255,0.03), transparent 8%);
+  }
+  /* floating skulls via pseudo elements */
+  .skull-layer::before, .skull-layer::after{
+    content: "\f54c \00a0 \f54c \00a0 \f54c";
+    font-family: "Font Awesome 6 Free";
+    font-weight:900;
+    position:absolute;
+    font-size:120px;
+    color:rgba(0,0,0,0.35);
+    left:-5%;
+    top:10%;
+    transform:rotate(-10deg);
+    mix-blend-mode:overlay;
+    animation: floatSkull 12s linear infinite;
+    letter-spacing:40px;
+  }
+  .skull-layer::after{
+    left:auto; right:-5%;
+    top:60%;
+    font-size:90px;
+    animation-duration:16s;
+    transform:rotate(8deg);
+    opacity:0.28;
+  }
+  @keyframes floatSkull{
+    0%{transform:translateY(0) rotate(-8deg) scale(1);}
+    50%{transform:translateY(-40px) rotate(4deg) scale(1.05);}
+    100%{transform:translateY(0) rotate(-8deg) scale(1);}
+  }
+
+  /* ---- login card (transparent black) ---- */
+  .card{
+    width:100%;
+    max-width:420px;
+    background:rgba(0,0,0,0.55); /* transparent black */
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.7), inset 0 0 60px rgba(0,0,0,0.2);
+    border:1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(6px);
+    position:relative;
+    z-index:2;
+    transition:transform .35s ease;
+  }
+  .card:hover{transform:translateY(-6px)}
+
+  /* ---- header (no round logo) ---- */
+  .title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    justify-content:center;
+    margin-bottom:18px;
+  }
+  .title .skull{
+    font-size:36px;
+    color:#ff2e2e; /* pop skull color */
+    filter:drop-shadow(0 6px 22px rgba(255,0,0,0.09));
+  }
+  .title h1{
+    font-size:18px;
+    letter-spacing:2px;
+    color:#fff;
+    text-transform:uppercase;
+    font-weight:700;
+    line-height:1;
+  }
+  .subtitle{
+    text-align:center;
+    color:rgba(255,255,255,0.55);
+    font-size:12px;
+    margin-top:6px;
+    letter-spacing:1.6px;
+  }
+
+  /* ---- form controls (transparent inside) ---- */
+  form{margin-top:14px}
+  .field{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:rgba(255,255,255,0.02);
+    border-radius:10px;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,0.03);
+    margin-bottom:12px;
+    min-height:48px;
+  }
+  .field .fa{
+    font-size:18px;
+    color:rgba(255,255,255,0.6);
+  }
+  .field input{
+    flex:1;
+    background:transparent;
+    border:0;
+    outline:0;
+    color:#fff;
+    font-size:15px;
+  }
+  .field input::placeholder{color:rgba(255,255,255,0.35)}
+
+  /* ---- actions ---- */
+  .actions{display:flex;gap:10px;margin-top:8px;flex-direction:column}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:12px;
+    border-radius:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    cursor:pointer;
+    border:0;
+    font-size:15px;
+  }
+
+  /* primary: login (dark) */
+  .btn.primary{
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  }
+
+  /* secondary: get access (whatsapp) - obvious CTA */
+  .btn.whatsapp{
+    background:linear-gradient(90deg,#25D366,#128C7E);
+    color:#fff;
+    display:flex;
+  }
+
+  .meta{
+    margin-top:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:rgba(255,255,255,0.45);
+    font-size:13px;
+  }
+
+  /* ---- footer text LET HOLY MEN LIVE ---- */
+  .holy{
+    position:fixed;
+    bottom:28px;
+    width:100%;
+    text-align:center;
+    z-index:4;
+    color:rgba(255,255,255,0.06);
+    font-weight:800;
+    letter-spacing:3px;
+    font-size:14px;
+    text-transform:uppercase;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+  }
+
+  /* small screens */
+  @media (max-width:420px){
+    .card{padding:18px}
+    .title h1{font-size:16px}
+    .field{padding:10px}
+  }
+
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
-<canvas id="crosses"></canvas>
-<div id="bgOverlay"></div>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="skull-layer" aria-hidden="true"></div>
 
-<div class="card">
-  <img class="avatar" src="https://i.imgur.com/BpBph7h.jpeg" alt="Avatar">
-  <h2>AZREAL 5.0 BY PARASITE</h2>
-  <p class="subtitle"><i class="fa-solid fa-shield-halved"></i> AUTHORIZED ACCESS ONLY</p>
-  <form id="loginForm">
-    <div class="form-group">
-      <i class="fas fa-user icon"></i>
-      <input type="text" id="username" placeholder="Username" autocomplete="off">
+  <div class="card" role="main" aria-label="AZREAL login panel">
+    <div class="title" aria-hidden="false">
+      <i class="fa-solid fa-skull-crossbones skull" aria-hidden="true"></i>
+      <div>
+        <h1>AZREAL 5.0 — BY PARASITE</h1>
+        <div class="subtitle">AUTHORIZED ACCESS</div>
+      </div>
     </div>
-    <div class="form-group">
-      <i class="fas fa-lock icon"></i>
-      <input type="password" id="password" placeholder="Password" autocomplete="off">
-    </div>
-    <button id="loginBtn" type="submit"><i class="fa-solid fa-rocket"></i> ACCESS</button>
-  </form>
-  <div id="result" class="result"></div>
-</div>
 
-<div id="holyText">✞ LET HOLY MEN LIVE ✞</div>
+    <form id="loginForm" autocomplete="off" novalidate>
+      <div class="field">
+        <i class="fa-solid fa-user"></i>
+        <input id="username" type="text" placeholder="Username" autocomplete="username" />
+      </div>
 
-<script src="https://kit.fontawesome.com/a2e0e6ad5b.js" crossorigin="anonymous"></script>
+      <div class="field">
+        <i class="fa-solid fa-lock"></i>
+        <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      </div>
+
+      <div class="actions">
+        <button id="loginBtn" class="btn primary" type="submit"><i class="fa-solid fa-right-to-bracket"></i> ACCESS</button>
+
+        <!-- WhatsApp fallback CTA -->
+        <button id="waBtn" type="button" class="btn whatsapp" title="Get access via WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+          Get Access — +234 916 032 8347
+        </button>
+      </div>
+    </form>
+
+    <div id="result" style="display:none;margin-top:12px;padding:10px;border-radius:8px;font-size:14px;"></div>
+  </div>
+
+  <div class="holy">✝ LET HOLY MEN LIVE ✝</div>
+
 <script>
-// Matrix Rain
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-function resizeCanvas(){canvas.height=window.innerHeight;canvas.width=window.innerWidth;}
-resizeCanvas(); window.addEventListener("resize",resizeCanvas);
-const chars="01ABCDEFGHJKMNPRSTUVWXYZ#$%&*+";
-const fontSize=16;
-let columns=Math.floor(canvas.width/fontSize);
-let drops=Array(columns).fill(1);
-function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.08)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="red";
-  ctx.font=fontSize+"px monospace";
-  for(let i=0;i<drops.length;i++){
-    const text=chars.charAt(Math.floor(Math.random()*chars.length));
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975) drops[i]=0;
-    drops[i]++;
+  // redirect if already logged in
+  if(localStorage.getItem('authToken')) {
+    window.location.href = 'index.html';
   }
-}
-setInterval(draw,33);
 
-// Moving Crosses
-const crossCanvas=document.getElementById("crosses");
-const crossCtx=crossCanvas.getContext("2d");
-function resizeCrossCanvas(){crossCanvas.height=window.innerHeight;crossCanvas.width=window.innerWidth;}
-resizeCrossCanvas(); window.addEventListener("resize",resizeCrossCanvas);
-let crosses=[];
-for(let i=0;i<25;i++){
-  crosses.push({x:Math.random()*crossCanvas.width,y:Math.random()*crossCanvas.height,speed:(Math.random()*0.8)+0.2,size:10+Math.random()*10});
-}
-function drawCrosses(){
-  crossCtx.clearRect(0,0,crossCanvas.width,crossCanvas.height);
-  crossCtx.strokeStyle="rgba(255,0,0,0.5)";
-  crossCtx.lineWidth=1.5;
-  crosses.forEach(c=>{
-    crossCtx.beginPath();
-    crossCtx.moveTo(c.x-c.size/2,c.y);
-    crossCtx.lineTo(c.x+c.size/2,c.y);
-    crossCtx.moveTo(c.x,c.y-c.size/2);
-    crossCtx.lineTo(c.x,c.y+c.size/2);
-    crossCtx.stroke();
-    c.y+=c.speed;
-    if(c.y>crossCanvas.height+20) c.y=-10;
+  // WhatsApp CTA logic (opens chat)
+  const waNumber = '2349160328347'; // number without '+'
+  const waMessage = encodeURIComponent('Hello, I need access to AZREAL 5.0 — please assist.');
+  const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
+
+  document.getElementById('waBtn').addEventListener('click', () => {
+    // open in new tab/window so user doesn't lose page
+    window.open(waUrl, '_blank');
   });
-  requestAnimationFrame(drawCrosses);
-}
-drawCrosses();
 
-// Login Functionality
-if(localStorage.getItem('authToken')) window.location.href='index.html';
+  // Login behavior (keeps fetch to /api/login)
+  const loginForm = document.getElementById('loginForm');
+  const resultDiv = document.getElementById('result');
+  const loginBtn = document.getElementById('loginBtn');
 
-document.getElementById('loginForm').addEventListener('submit',async(e)=>{
-  e.preventDefault();
-  const username=document.getElementById('username').value.trim();
-  const password=document.getElementById('password').value.trim();
-  const resultDiv=document.getElementById('result');
-  const loginBtn=document.getElementById('loginBtn');
-
-  if(!username||!password) return showResult('Username and password cannot be empty.','error');
-
-  loginBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
-  loginBtn.disabled=true; resultDiv.style.display='none';
-
-  try{
-    const res=await fetch('/api/login',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({username,password})
-    });
-    const data=await res.json();
-
-    if(data.success){
-      localStorage.setItem('authToken',data.token);
-      showResult('Login successful!','success');
-      setTimeout(()=>{window.location.href='index.html';},1500);
-    }else showResult(`${data.message}`,'error');
-  }catch(err){
-    console.error('Login error:',err);
-    showResult('Server error. Please try again.','error');
-  }finally{
-    loginBtn.innerHTML='<i class="fa-solid fa-rocket"></i> ACCESS';
-    loginBtn.disabled=false;
+  function showResult(message, type='info'){
+    resultDiv.style.display = 'block';
+    resultDiv.textContent = message;
+    if(type === 'success'){
+      resultDiv.style.background = 'rgba(0,255,150,0.06)';
+      resultDiv.style.color = '#7cffc6';
+      resultDiv.style.border = '1px solid rgba(0,255,150,0.12)';
+    } else if(type === 'error'){
+      resultDiv.style.background = 'rgba(255,0,0,0.04)';
+      resultDiv.style.color = '#ff8b8b';
+      resultDiv.style.border = '1px solid rgba(255,0,0,0.06)';
+    } else {
+      resultDiv.style.background = 'rgba(255,255,255,0.02)';
+      resultDiv.style.color = 'rgba(255,255,255,0.7)';
+      resultDiv.style.border = '1px solid rgba(255,255,255,0.02)';
+    }
   }
-});
 
-function showResult(message,type){
-  const resultDiv=document.getElementById('result');
-  resultDiv.innerHTML=message;
-  resultDiv.className=`result ${type}`;
-  resultDiv.style.display='block';
-}
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if(!username || !password){
+      // quick prompt to use WhatsApp if they have no password
+      showResult('No username or password entered. Use "Get Access" to contact via WhatsApp.', 'error');
+      return;
+    }
+
+    loginBtn.disabled = true;
+    const originalText = loginBtn.innerHTML;
+    loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({username, password})
+      });
+
+      // if server returns non-json or error, fall back gracefully
+      const data = await res.json().catch(()=>({ success:false, message:'Invalid server response' }));
+
+      if(data && data.success){
+        // store token and redirect to index.html
+        if(data.token) localStorage.setItem('authToken', data.token);
+        showResult('Login successful — redirecting...', 'success');
+        setTimeout(()=>window.location.href='index.html', 900);
+      } else {
+        // if the server indicates "no password set" or similar,
+        // provide visible WhatsApp CTA suggestion
+        const msg = data && data.message ? data.message : 'Login failed. Use "Get Access" if you do not have credentials.';
+        showResult(msg, 'error');
+      }
+    } catch(err){
+      console.error('Login error:', err);
+      showResult('Server error. Try "Get Access" or contact admin via WhatsApp.', 'error');
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = originalText;
+    }
+  });
 </script>
 </body>
 </html>
