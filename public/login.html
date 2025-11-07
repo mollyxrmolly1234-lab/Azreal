@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>AZREAL 5.0 BY PARASITE - LOGIN</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',Arial,Helvetica,sans-serif;}
 body{
   background:#000;
   height:100vh;
@@ -16,24 +16,43 @@ body{
   align-items:center;
   color:#fff;
   padding:10px;
+  position:relative;
 }
-canvas#bg{
+canvas#bg,canvas#crosses{
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
+  z-index:-2;
+}
+#bgOverlay{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:url('https://files.catbox.moe/awlec2.jpeg') center/cover no-repeat;
+  opacity:0.12;
+  filter:blur(3px);
   z-index:-1;
-  background:#000;
 }
 .card{
-  background:rgba(20,20,20,0.85);
+  background:rgba(10,10,10,0.85);
   border:1px solid red;
   border-radius:15px;
   padding:30px;
   width:100%;
-  max-width:350px;
+  max-width:370px;
   text-align:center;
-  box-shadow:0 0 25px rgba(255,0,0,0.7);
+  box-shadow:0 0 35px rgba(255,0,0,0.7);
   position:relative;
+  animation:fadeIn 2s ease;
+}
+.card::before{
+  content:'';
+  position:absolute;
+  top:-2px;left:-2px;right:-2px;bottom:-2px;
+  border-radius:15px;
+  background:linear-gradient(45deg,red,transparent,red);
+  z-index:-1;
+  animation:glowBorder 3s linear infinite;
 }
 .card img.avatar{
   width:100px;
@@ -42,8 +61,21 @@ canvas#bg{
   object-fit:cover;
   border:2px solid red;
   margin-bottom:20px;
+  animation:pulse 2.5s infinite;
 }
-.card h2{color:red;margin-bottom:20px;}
+.card h2{
+  color:red;
+  margin-bottom:10px;
+  font-size:22px;
+  text-shadow:0 0 10px red;
+  animation:glitch 2s infinite;
+}
+.subtitle{
+  font-size:11px;
+  color:#999;
+  margin-bottom:20px;
+  letter-spacing:2px;
+}
 .form-group{
   margin-bottom:15px;
   display:flex;
@@ -66,9 +98,6 @@ canvas#bg{
 .form-group .icon{
   color:red;
   font-size:16px;
-}
-.form-group input:focus + .icon{
-  color:#ff6666;
 }
 button{
   width:100%;
@@ -97,6 +126,39 @@ button:disabled{background:#222;box-shadow:none;cursor:not-allowed;}
 }
 .result.success{background:rgba(0,255,0,0.1);color:#0f0;border:1px solid #0f0;}
 .result.error{background:rgba(255,0,0,0.1);color:#f55;border:1px solid red;}
+#holyText{
+  position:fixed;
+  bottom:20px;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+  color:red;
+  text-shadow:0 0 10px red;
+  animation:flicker 3s infinite;
+  letter-spacing:3px;
+  font-family:'Orbitron',monospace;
+}
+@keyframes glowBorder{
+  0%{filter:hue-rotate(0deg);}
+  100%{filter:hue-rotate(360deg);}
+}
+@keyframes flicker{
+  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
+  20%,24%,55%{opacity:0.3;}
+}
+@keyframes glitch{
+  0%{text-shadow:2px 0 red,-2px 0 #0ff;}
+  50%{text-shadow:-2px 0 red,2px 0 #0ff;}
+  100%{text-shadow:2px 0 red,-2px 0 #0ff;}
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
 @media (max-width:400px){
   .card{padding:20px;}
   input,button{font-size:13px;padding:10px;}
@@ -107,10 +169,13 @@ button:disabled{background:#222;box-shadow:none;cursor:not-allowed;}
 </head>
 <body>
 <canvas id="bg"></canvas>
+<canvas id="crosses"></canvas>
+<div id="bgOverlay"></div>
 
 <div class="card">
   <img class="avatar" src="https://i.imgur.com/BpBph7h.jpeg" alt="Avatar">
-  <h2><i class="fa-solid fa-user-shield"></i> LOGIN</h2>
+  <h2>AZREAL 5.0 BY PARASITE</h2>
+  <p class="subtitle"><i class="fa-solid fa-shield-halved"></i> AUTHORIZED ACCESS ONLY</p>
   <form id="loginForm">
     <div class="form-group">
       <i class="fas fa-user icon"></i>
@@ -125,19 +190,19 @@ button:disabled{background:#222;box-shadow:none;cursor:not-allowed;}
   <div id="result" class="result"></div>
 </div>
 
+<div id="holyText">✞ LET HOLY MEN LIVE ✞</div>
+
 <script src="https://kit.fontawesome.com/a2e0e6ad5b.js" crossorigin="anonymous"></script>
 <script>
+// Matrix Rain
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
 function resizeCanvas(){canvas.height=window.innerHeight;canvas.width=window.innerWidth;}
-resizeCanvas();
-window.addEventListener("resize",resizeCanvas);
-
+resizeCanvas(); window.addEventListener("resize",resizeCanvas);
 const chars="01ABCDEFGHJKMNPRSTUVWXYZ#$%&*+";
 const fontSize=16;
 let columns=Math.floor(canvas.width/fontSize);
 let drops=Array(columns).fill(1);
-
 function draw(){
   ctx.fillStyle="rgba(0,0,0,0.08)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -152,6 +217,34 @@ function draw(){
 }
 setInterval(draw,33);
 
+// Moving Crosses
+const crossCanvas=document.getElementById("crosses");
+const crossCtx=crossCanvas.getContext("2d");
+function resizeCrossCanvas(){crossCanvas.height=window.innerHeight;crossCanvas.width=window.innerWidth;}
+resizeCrossCanvas(); window.addEventListener("resize",resizeCrossCanvas);
+let crosses=[];
+for(let i=0;i<25;i++){
+  crosses.push({x:Math.random()*crossCanvas.width,y:Math.random()*crossCanvas.height,speed:(Math.random()*0.8)+0.2,size:10+Math.random()*10});
+}
+function drawCrosses(){
+  crossCtx.clearRect(0,0,crossCanvas.width,crossCanvas.height);
+  crossCtx.strokeStyle="rgba(255,0,0,0.5)";
+  crossCtx.lineWidth=1.5;
+  crosses.forEach(c=>{
+    crossCtx.beginPath();
+    crossCtx.moveTo(c.x-c.size/2,c.y);
+    crossCtx.lineTo(c.x+c.size/2,c.y);
+    crossCtx.moveTo(c.x,c.y-c.size/2);
+    crossCtx.lineTo(c.x,c.y+c.size/2);
+    crossCtx.stroke();
+    c.y+=c.speed;
+    if(c.y>crossCanvas.height+20) c.y=-10;
+  });
+  requestAnimationFrame(drawCrosses);
+}
+drawCrosses();
+
+// Login Functionality
 if(localStorage.getItem('authToken')) window.location.href='index.html';
 
 document.getElementById('loginForm').addEventListener('submit',async(e)=>{
@@ -177,7 +270,7 @@ document.getElementById('loginForm').addEventListener('submit',async(e)=>{
     if(data.success){
       localStorage.setItem('authToken',data.token);
       showResult('Login successful!','success');
-      setTimeout(()=>{window.location.href='imdex.html';},1500);
+      setTimeout(()=>{window.location.href='index.html';},1500);
     }else showResult(`${data.message}`,'error');
   }catch(err){
     console.error('Login error:',err);
