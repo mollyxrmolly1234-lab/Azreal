@@ -1,336 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>AZREAL 5.0 BY PARASITE - LOGIN</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZREAL 5.0 BY PARASITE</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  /* ---- base ---- */
-  *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,Helvetica,sans-serif}
-  html,body{height:100%}
-  body{
-    background:#000;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    padding:20px;
-    position:relative;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-  /* ---- bold background image (cover, vivid) ---- */
-  :root{
-    --bg-url: url('https://files.catbox.moe/awlec2.jpeg'); /* change to your hosted image if needed */
-  }
-  .bg{
-    position:fixed;inset:0;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)),
-      var(--bg-url);
-    background-size:cover;
-    background-position:center;
-    filter:contrast(120%) saturate(120%);
-    z-index:-3;
-  }
-
-  /* ---- moving skulls (subtle, animated) ---- */
-  .skull-layer{
-    position:fixed;inset:0;pointer-events:none;z-index:-2;opacity:0.12;
-    background-image:
-      radial-gradient(circle at 10% 20%, rgba(255,0,0,0.05), transparent 6%),
-      radial-gradient(circle at 85% 70%, rgba(255,255,255,0.03), transparent 8%);
-  }
-  /* floating skulls via pseudo elements */
-  .skull-layer::before, .skull-layer::after{
-    content: "\f54c \00a0 \f54c \00a0 \f54c";
-    font-family: "Font Awesome 6 Free";
-    font-weight:900;
-    position:absolute;
-    font-size:120px;
-    color:rgba(0,0,0,0.35);
-    left:-5%;
-    top:10%;
-    transform:rotate(-10deg);
-    mix-blend-mode:overlay;
-    animation: floatSkull 12s linear infinite;
-    letter-spacing:40px;
-  }
-  .skull-layer::after{
-    left:auto; right:-5%;
-    top:60%;
-    font-size:90px;
-    animation-duration:16s;
-    transform:rotate(8deg);
-    opacity:0.28;
-  }
-  @keyframes floatSkull{
-    0%{transform:translateY(0) rotate(-8deg) scale(1);}
-    50%{transform:translateY(-40px) rotate(4deg) scale(1.05);}
-    100%{transform:translateY(0) rotate(-8deg) scale(1);}
-  }
-
-  /* ---- login card (transparent black) ---- */
-  .card{
-    width:100%;
-    max-width:420px;
-    background:rgba(0,0,0,0.55); /* transparent black */
-    border-radius:18px;
-    padding:28px;
-    box-shadow:0 20px 60px rgba(0,0,0,0.7), inset 0 0 60px rgba(0,0,0,0.2);
-    border:1px solid rgba(255,255,255,0.03);
-    backdrop-filter: blur(6px);
-    position:relative;
-    z-index:2;
-    transition:transform .35s ease;
-  }
-  .card:hover{transform:translateY(-6px)}
-
-  /* ---- header (no round logo) ---- */
-  .title{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    justify-content:center;
-    margin-bottom:18px;
-  }
-  .title .skull{
-    font-size:36px;
-    color:#ff2e2e; /* pop skull color */
-    filter:drop-shadow(0 6px 22px rgba(255,0,0,0.09));
-  }
-  .title h1{
-    font-size:18px;
-    letter-spacing:2px;
-    color:#fff;
-    text-transform:uppercase;
-    font-weight:700;
-    line-height:1;
-  }
-  .subtitle{
-    text-align:center;
-    color:rgba(255,255,255,0.55);
-    font-size:12px;
-    margin-top:6px;
-    letter-spacing:1.6px;
-  }
-
-  /* ---- form controls (transparent inside) ---- */
-  form{margin-top:14px}
-  .field{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    background:rgba(255,255,255,0.02);
-    border-radius:10px;
-    padding:12px 14px;
-    border:1px solid rgba(255,255,255,0.03);
-    margin-bottom:12px;
-    min-height:48px;
-  }
-  .field .fa{
-    font-size:18px;
-    color:rgba(255,255,255,0.6);
-  }
-  .field input{
-    flex:1;
-    background:transparent;
-    border:0;
-    outline:0;
-    color:#fff;
-    font-size:15px;
-  }
-  .field input::placeholder{color:rgba(255,255,255,0.35)}
-
-  /* ---- actions ---- */
-  .actions{display:flex;gap:10px;margin-top:8px;flex-direction:column}
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    padding:12px;
-    border-radius:10px;
-    font-weight:700;
-    letter-spacing:1px;
-    cursor:pointer;
-    border:0;
-    font-size:15px;
-  }
-
-  /* primary: login (dark) */
-  .btn.primary{
-    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    color:#fff;
-    border:1px solid rgba(255,255,255,0.06);
-    box-shadow:0 8px 30px rgba(0,0,0,0.6);
-  }
-
-  /* secondary: get access (whatsapp) - obvious CTA */
-  .btn.whatsapp{
-    background:linear-gradient(90deg,#25D366,#128C7E);
-    color:#fff;
-    display:flex;
-  }
-
-  .meta{
-    margin-top:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    color:rgba(255,255,255,0.45);
-    font-size:13px;
-  }
-
-  /* ---- footer text LET HOLY MEN LIVE ---- */
-  .holy{
-    position:fixed;
-    bottom:28px;
-    width:100%;
-    text-align:center;
-    z-index:4;
-    color:rgba(255,255,255,0.06);
-    font-weight:800;
-    letter-spacing:3px;
-    font-size:14px;
-    text-transform:uppercase;
-    pointer-events:none;
-    mix-blend-mode:overlay;
-  }
-
-  /* small screens */
-  @media (max-width:420px){
-    .card{padding:18px}
-    .title h1{font-size:16px}
-    .field{padding:10px}
-  }
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron',sans-serif;}
+body{
+  height:100vh;
+  background:url('https://files.catbox.moe/xxd43e.jpeg') no-repeat center center/cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+  position:relative;
+}
+body::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:0;
+}
+.cross{
+  position:absolute;
+  color:#a020f0;
+  opacity:0.2;
+  font-size:20px;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0deg);opacity:0.2;}
+  50%{opacity:0.7;}
+  100%{transform:translateY(-120vh) rotate(360deg);opacity:0.2;}
+}
+.title{
+  position:absolute;
+  top:40px;
+  color:#c86bfa;
+  font-size:2rem;
+  letter-spacing:3px;
+  text-shadow:0 0 15px #b44cff,0 0 30px #b44cff,0 0 45px #c86bfa;
+  animation:flicker 3s infinite;
+  z-index:2;
+}
+@keyframes flicker{
+  0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}
+  20%,24%,55%{opacity:0.3;}
+}
+.card{
+  position:relative;
+  z-index:2;
+  width:90%;
+  max-width:350px;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);
+  border-radius:15px;
+  padding:30px;
+  box-shadow:0 0 25px rgba(180,76,255,0.4);
+  text-align:center;
+}
+.card h2{
+  color:#c86bfa;
+  margin-bottom:20px;
+  text-shadow:0 0 15px #b44cff;
+}
+.form-group{
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  border:1px solid #b44cff;
+  border-radius:8px;
+  padding:0 10px;
+  background:rgba(0,0,0,0.5);
+  height:40px;
+}
+.form-group input{
+  flex:1;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  font-size:14px;
+  padding-left:10px;
+}
+.form-group .icon{
+  color:#b44cff;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:8px;
+  font-size:15px;
+  background:#b44cff;
+  box-shadow:0 0 25px #b44cff, 0 0 50px #a020f0 inset;
+  animation:pulse 2s infinite;
+  transition:0.3s;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 15px #b44cff;}
+  50%{box-shadow:0 0 35px #a020f0, 0 0 60px #b44cff inset;}
+  100%{box-shadow:0 0 15px #b44cff;}
+}
+button:hover{
+  background:#a020f0;
+}
+.result{
+  margin-top:12px;
+  padding:10px;
+  border-radius:8px;
+  font-size:14px;
+  display:none;
+  text-align:left;
+  line-height:1.4em;
+}
+.result.success{background:rgba(0,255,0,0.1);color:#0f0;border:1px solid #0f0;}
+.result.error{background:rgba(255,0,0,0.1);color:#f55;border:1px solid red;}
 </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
-  <div class="skull-layer" aria-hidden="true"></div>
 
-  <div class="card" role="main" aria-label="AZREAL login panel">
-    <div class="title" aria-hidden="false">
-      <i class="fa-solid fa-skull-crossbones skull" aria-hidden="true"></i>
-      <div>
-        <h1>AZREAL 5.0 — BY PARASITE</h1>
-        <div class="subtitle">AUTHORIZED ACCESS</div>
-      </div>
+<div class="title">HOLY MEN LIVE</div>
+
+<div class="card">
+  <h2><i class="fa-solid fa-user-shield"></i> AZREAL 5.0</h2>
+  <form id="loginForm">
+    <div class="form-group">
+      <i class="fas fa-user icon"></i>
+      <input type="text" id="username" placeholder="Username" autocomplete="off">
     </div>
-
-    <form id="loginForm" autocomplete="off" novalidate>
-      <div class="field">
-        <i class="fa-solid fa-user"></i>
-        <input id="username" type="text" placeholder="Username" autocomplete="username" />
-      </div>
-
-      <div class="field">
-        <i class="fa-solid fa-lock"></i>
-        <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
-      </div>
-
-      <div class="actions">
-        <button id="loginBtn" class="btn primary" type="submit"><i class="fa-solid fa-right-to-bracket"></i> ACCESS</button>
-
-        <!-- WhatsApp fallback CTA -->
-        <button id="waBtn" type="button" class="btn whatsapp" title="Get access via WhatsApp">
-          <i class="fa-brands fa-whatsapp"></i>
-          Get Access — +234 916 032 8347
-        </button>
-      </div>
-    </form>
-
-    <div id="result" style="display:none;margin-top:12px;padding:10px;border-radius:8px;font-size:14px;"></div>
-  </div>
-
-  <div class="holy">✝ LET HOLY MEN LIVE ✝</div>
+    <div class="form-group">
+      <i class="fas fa-lock icon"></i>
+      <input type="password" id="password" placeholder="Password" autocomplete="off">
+    </div>
+    <button id="loginBtn" type="submit">CONTACT DEV</button>
+  </form>
+  <div id="result" class="result"></div>
+</div>
 
 <script>
-  // redirect if already logged in
-  if(localStorage.getItem('authToken')) {
-    window.location.href = 'index.html';
+// moving crosses
+for(let i=0;i<30;i++){
+  const cross=document.createElement('div');
+  cross.className='cross';
+  cross.textContent='✝';
+  cross.style.left=Math.random()*100+'vw';
+  cross.style.animationDuration=(6+Math.random()*14)+'s';
+  cross.style.fontSize=(14+Math.random()*25)+'px';
+  document.body.appendChild(cross);
+}
+
+// redirect if already logged in
+if(localStorage.getItem('authToken')) window.location.href='index.html';
+
+document.getElementById('loginForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  const username=document.getElementById('username').value.trim();
+  const password=document.getElementById('password').value.trim();
+  const resultDiv=document.getElementById('result');
+  const loginBtn=document.getElementById('loginBtn');
+
+  if(!username||!password){
+    // send to WhatsApp if missing password
+    window.location.href='https://wa.me/2349160328347?text=Hello%20Dev%2C%20I%20need%20access%20to%20AZREAL%205.0';
+    return;
   }
 
-  // WhatsApp CTA logic (opens chat)
-  const waNumber = '2349160328347'; // number without '+'
-  const waMessage = encodeURIComponent('Hello, I need access to AZREAL 5.0 — please assist.');
-  const waUrl = `https://wa.me/${waNumber}?text=${waMessage}`;
+  loginBtn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+  loginBtn.disabled=true; resultDiv.style.display='none';
 
-  document.getElementById('waBtn').addEventListener('click', () => {
-    // open in new tab/window so user doesn't lose page
-    window.open(waUrl, '_blank');
-  });
+  try{
+    const res=await fetch('/api/login',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({username,password})
+    });
+    const data=await res.json();
 
-  // Login behavior (keeps fetch to /api/login)
-  const loginForm = document.getElementById('loginForm');
-  const resultDiv = document.getElementById('result');
-  const loginBtn = document.getElementById('loginBtn');
-
-  function showResult(message, type='info'){
-    resultDiv.style.display = 'block';
-    resultDiv.textContent = message;
-    if(type === 'success'){
-      resultDiv.style.background = 'rgba(0,255,150,0.06)';
-      resultDiv.style.color = '#7cffc6';
-      resultDiv.style.border = '1px solid rgba(0,255,150,0.12)';
-    } else if(type === 'error'){
-      resultDiv.style.background = 'rgba(255,0,0,0.04)';
-      resultDiv.style.color = '#ff8b8b';
-      resultDiv.style.border = '1px solid rgba(255,0,0,0.06)';
-    } else {
-      resultDiv.style.background = 'rgba(255,255,255,0.02)';
-      resultDiv.style.color = 'rgba(255,255,255,0.7)';
-      resultDiv.style.border = '1px solid rgba(255,255,255,0.02)';
-    }
+    if(data.success){
+      localStorage.setItem('authToken',data.token);
+      showResult('Access Granted ⚡','success');
+      setTimeout(()=>{window.location.href='index.html';},1500);
+    }else showResult(data.message,'error');
+  }catch(err){
+    console.error('Login error:',err);
+    showResult('Server error. Please try again.','error');
+  }finally{
+    loginBtn.innerHTML='CONTACT DEV';
+    loginBtn.disabled=false;
   }
+});
 
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-
-    if(!username || !password){
-      // quick prompt to use WhatsApp if they have no password
-      showResult('No username or password entered. Use "Get Access" to contact via WhatsApp.', 'error');
-      return;
-    }
-
-    loginBtn.disabled = true;
-    const originalText = loginBtn.innerHTML;
-    loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({username, password})
-      });
-
-      // if server returns non-json or error, fall back gracefully
-      const data = await res.json().catch(()=>({ success:false, message:'Invalid server response' }));
-
-      if(data && data.success){
-        // store token and redirect to index.html
-        if(data.token) localStorage.setItem('authToken', data.token);
-        showResult('Login successful — redirecting...', 'success');
-        setTimeout(()=>window.location.href='index.html', 900);
-      } else {
-        // if the server indicates "no password set" or similar,
-        // provide visible WhatsApp CTA suggestion
-        const msg = data && data.message ? data.message : 'Login failed. Use "Get Access" if you do not have credentials.';
-        showResult(msg, 'error');
-      }
-    } catch(err){
-      console.error('Login error:', err);
-      showResult('Server error. Try "Get Access" or contact admin via WhatsApp.', 'error');
-    } finally {
-      loginBtn.disabled = false;
-      loginBtn.innerHTML = originalText;
-    }
-  });
+function showResult(message,type){
+  const resultDiv=document.getElementById('result');
+  resultDiv.innerHTML=message;
+  resultDiv.className=`result ${type}`;
+  resultDiv.style.display='block';
+}
 </script>
 </body>
 </html>
