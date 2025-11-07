@@ -22,7 +22,7 @@ body{
   justify-content:center;
   align-items:center;
   color:#fff;
-  padding:15px;
+  padding:20px;
   position:relative;
   overflow-x:hidden;
 }
@@ -34,7 +34,7 @@ body::before{
   width:100%;height:100%;
   background:url('https://files.catbox.moe/tw8ovl.jpeg') center/cover no-repeat fixed;
   z-index:1;
-  filter:brightness(0.4) contrast(1.2);
+  filter:brightness(0.5) contrast(1.1);
 }
 
 body::after{
@@ -42,8 +42,7 @@ body::after{
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
-  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.03), transparent 50%),
-             radial-gradient(circle at 80% 20%, rgba(138,43,226,0.05), transparent 40%);
+  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.02), transparent 60%);
   z-index:2;
 }
 
@@ -53,26 +52,154 @@ canvas#bg{
   width:100%;height:100%;
   z-index:3;
   pointer-events:none;
-  opacity:0.3;
+  opacity:0.25;
+}
+
+.status-bar{
+  position:fixed;
+  top:20px;
+  right:20px;
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.status-card{
+  background:rgba(10,10,20,0.5);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(0,229,255,0.15);
+  border-radius:12px;
+  padding:12px 16px;
+  min-width:200px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4);
+}
+
+.status-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:8px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+  color:rgba(255,255,255,0.6);
+  text-transform:uppercase;
+}
+
+.online-indicator{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:700;
+  color:#00ff96;
+}
+
+.pulse-dot{
+  width:8px;
+  height:8px;
+  background:#00ff96;
+  border-radius:50%;
+  box-shadow:0 0 10px #00ff96;
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.6;transform:scale(1.2);}
+}
+
+.ping-value{
+  font-family:'Orbitron',sans-serif;
+  color:rgba(255,255,255,0.5);
+  font-size:12px;
+  margin-left:auto;
+}
+
+.server-status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:4px;
+  padding-top:8px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+
+.server-label{
+  font-size:11px;
+  color:rgba(255,255,255,0.5);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.server-value{
+  font-family:'Orbitron',sans-serif;
+  font-size:12px;
+  color:#00e5ff;
+  font-weight:600;
+}
+
+.mini-chart{
+  background:rgba(10,10,20,0.5);
+  backdrop-filter:blur(15px);
+  border:1px solid rgba(0,229,255,0.15);
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.4);
+  min-width:220px;
+}
+
+.chart-header{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+  color:rgba(255,255,255,0.6);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.chart-bars{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  height:50px;
+  gap:4px;
+}
+
+.chart-bar{
+  flex:1;
+  background:linear-gradient(180deg, rgba(0,229,255,0.6), rgba(0,229,255,0.2));
+  border-radius:3px 3px 0 0;
+  min-width:8px;
+  transition:all 0.5s ease;
+  position:relative;
+}
+
+.chart-bar:hover{
+  background:linear-gradient(180deg, rgba(0,229,255,0.9), rgba(0,229,255,0.4));
 }
 
 .container{
   position:relative;
   z-index:10;
   width:100%;
-  max-width:440px;
+  max-width:420px;
 }
 
 .card{
-  background:rgba(10,10,20,0.7);
-  backdrop-filter:blur(25px) saturate(150%);
-  -webkit-backdrop-filter:blur(25px) saturate(150%);
+  background:rgba(10,10,20,0.5);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
   border:1px solid rgba(0,229,255,0.2);
   border-radius:20px;
   padding:35px 25px 30px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.6),
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),
              0 0 0 1px rgba(255,255,255,0.03) inset,
-             0 0 60px rgba(0,229,255,0.15);
+             0 0 40px rgba(0,229,255,0.1);
   position:relative;
   overflow:hidden;
 }
@@ -82,9 +209,9 @@ canvas#bg{
   position:absolute;
   top:-50%;left:-50%;
   width:200%;height:200%;
-  background:linear-gradient(45deg, transparent, rgba(0,229,255,0.03), transparent);
+  background:linear-gradient(45deg, transparent, rgba(0,229,255,0.02), transparent);
   transform:rotate(45deg);
-  animation:shimmer 6s infinite;
+  animation:shimmer 8s infinite;
 }
 
 @keyframes shimmer{
@@ -115,14 +242,7 @@ canvas#bg{
   margin:0 auto 20px;
   position:relative;
   background:rgba(0,229,255,0.05);
-  box-shadow:0 0 30px rgba(0,229,255,0.3),
-             0 0 0 1px rgba(0,229,255,0.1) inset;
-  animation:pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse{
-  0%,100%{transform:scale(1);box-shadow:0 0 30px rgba(0,229,255,0.3);}
-  50%{transform:scale(1.05);box-shadow:0 0 50px rgba(0,229,255,0.5);}
+  box-shadow:0 0 20px rgba(0,229,255,0.2);
 }
 
 .logo-ring img{
@@ -144,8 +264,7 @@ canvas#bg{
   -webkit-text-fill-color:transparent;
   background-clip:text;
   margin-bottom:8px;
-  animation:gradientShift 3s linear infinite;
-  text-shadow:0 0 30px rgba(0,229,255,0.5);
+  animation:gradientShift 4s linear infinite;
 }
 
 @keyframes gradientShift{
@@ -166,17 +285,6 @@ canvas#bg{
   border:1px solid rgba(0,229,255,0.3);
   padding:6px 14px;
   border-radius:20px;
-  box-shadow:0 0 20px rgba(0,229,255,0.2);
-}
-
-.version-badge i{
-  font-size:8px;
-  animation:blink 2s ease-in-out infinite;
-}
-
-@keyframes blink{
-  0%,100%{opacity:1;}
-  50%{opacity:0.3;}
 }
 
 .divider{
@@ -209,22 +317,9 @@ canvas#bg{
   border-radius:12px;
   padding:0 16px;
   height:52px;
-  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition:all 0.2s ease;
   position:relative;
   overflow:hidden;
-}
-
-.input-wrapper::before{
-  content:'';
-  position:absolute;
-  top:0;left:-100%;
-  width:100%;height:100%;
-  background:linear-gradient(90deg, transparent, rgba(0,229,255,0.1), transparent);
-  transition:left 0.5s;
-}
-
-.input-wrapper:hover::before{
-  left:100%;
 }
 
 .input-wrapper:hover{
@@ -235,21 +330,18 @@ canvas#bg{
 .input-wrapper:focus-within{
   background:rgba(255,255,255,0.08);
   border-color:rgba(0,229,255,0.5);
-  box-shadow:0 0 0 3px rgba(0,229,255,0.1),
-             0 0 20px rgba(0,229,255,0.2);
-  transform:translateY(-2px);
+  box-shadow:0 0 0 3px rgba(0,229,255,0.1);
 }
 
 .input-wrapper .icon{
   color:rgba(0,229,255,0.6);
   font-size:17px;
-  transition:all 0.3s ease;
+  transition:all 0.2s ease;
   min-width:20px;
 }
 
 .input-wrapper:focus-within .icon{
   color:#00e5ff;
-  transform:scale(1.1);
 }
 
 .input-wrapper input{
@@ -282,40 +374,24 @@ button{
   font-size:14px;
   cursor:pointer;
   margin-top:20px;
-  transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition:all 0.2s ease;
   letter-spacing:2px;
   text-transform:uppercase;
   position:relative;
   overflow:hidden;
-  box-shadow:0 0 20px rgba(0,229,255,0.3);
-}
-
-button::before{
-  content:'';
-  position:absolute;
-  top:50%;left:50%;
-  width:0;height:0;
-  border-radius:50%;
-  background:rgba(0,229,255,0.3);
-  transform:translate(-50%,-50%);
-  transition:width 0.6s, height 0.6s;
-}
-
-button:hover::before{
-  width:400px;
-  height:400px;
+  box-shadow:0 0 20px rgba(0,229,255,0.2);
 }
 
 button:hover{
   background:linear-gradient(135deg, rgba(0,229,255,0.3), rgba(124,77,255,0.3));
   border-color:rgba(0,229,255,0.6);
-  box-shadow:0 0 30px rgba(0,229,255,0.5);
-  transform:translateY(-3px);
+  box-shadow:0 0 25px rgba(0,229,255,0.4);
+  transform:translateY(-2px);
   color:#fff;
 }
 
 button:active{
-  transform:translateY(-1px);
+  transform:translateY(0);
 }
 
 button:disabled{
@@ -346,7 +422,8 @@ button span{
   background:rgba(255,255,255,0.05);
   border-color:rgba(255,255,255,0.2);
   color:#fff;
-  box-shadow:0 0 20px rgba(255,255,255,0.1);
+  box-shadow:0 0 15px rgba(255,255,255,0.1);
+  transform:translateY(-2px);
 }
 
 .result{
@@ -358,7 +435,7 @@ button span{
   display:none;
   line-height:1.5;
   backdrop-filter:blur(10px);
-  animation:slideDown 0.3s ease;
+  animation:slideDown 0.2s ease;
 }
 
 @keyframes slideDown{
@@ -370,14 +447,41 @@ button span{
   background:rgba(0,255,150,0.1);
   color:#00ff96;
   border:1px solid rgba(0,255,150,0.3);
-  box-shadow:0 0 20px rgba(0,255,150,0.2);
+  box-shadow:0 0 15px rgba(0,255,150,0.15);
 }
 
 .result.error{
   background:rgba(255,80,80,0.1);
   color:#ff6b6b;
   border:1px solid rgba(255,80,80,0.3);
-  box-shadow:0 0 20px rgba(255,80,80,0.2);
+  box-shadow:0 0 15px rgba(255,80,80,0.15);
+}
+
+@media (max-width:768px){
+  .status-bar{
+    top:10px;
+    right:10px;
+    left:10px;
+    flex-direction:row;
+    justify-content:space-between;
+  }
+  .status-card,.mini-chart{
+    min-width:0;
+    flex:1;
+    padding:10px 12px;
+  }
+  .status-header,.chart-header{
+    font-size:9px;
+  }
+  .online-indicator{
+    font-size:12px;
+  }
+  .ping-value,.server-value{
+    font-size:10px;
+  }
+  .chart-bars{
+    height:35px;
+  }
 }
 
 @media (max-width:480px){
@@ -389,6 +493,10 @@ button span{
   .version-badge{font-size:10px;padding:5px 12px;}
   .input-wrapper{height:48px;padding:0 14px;}
   button{padding:14px;font-size:13px;}
+  .status-bar{
+    flex-direction:column;
+    gap:8px;
+  }
 }
 
 @media (max-width:360px){
@@ -400,6 +508,41 @@ button span{
 <body>
 <canvas id="bg"></canvas>
 
+<div class="status-bar">
+  <div class="status-card">
+    <div class="status-header">
+      <i class="fas fa-signal"></i>
+      <span>Status</span>
+    </div>
+    <div class="online-indicator">
+      <div class="pulse-dot"></div>
+      <span>ONLINE</span>
+      <span class="ping-value" id="pingValue">12ms</span>
+    </div>
+    <div class="server-status">
+      <span class="server-label">Server</span>
+      <span class="server-value" id="serverStatus">ACTIVE</span>
+    </div>
+  </div>
+  
+  <div class="mini-chart">
+    <div class="chart-header">
+      <i class="fas fa-chart-line"></i>
+      <span>Activity</span>
+    </div>
+    <div class="chart-bars" id="chartBars">
+      <div class="chart-bar" style="height:45%"></div>
+      <div class="chart-bar" style="height:65%"></div>
+      <div class="chart-bar" style="height:35%"></div>
+      <div class="chart-bar" style="height:80%"></div>
+      <div class="chart-bar" style="height:55%"></div>
+      <div class="chart-bar" style="height:70%"></div>
+      <div class="chart-bar" style="height:90%"></div>
+      <div class="chart-bar" style="height:60%"></div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="card">
     <div class="header">
@@ -408,7 +551,6 @@ button span{
       </div>
       <div class="site-title">AZREAL V5</div>
       <div class="version-badge">
-        <i class="fas fa-circle"></i>
         <span>BETA</span>
       </div>
     </div>
@@ -451,6 +593,7 @@ button span{
 
 <script src="https://kit.fontawesome.com/a2e0e6ad5b.js" crossorigin="anonymous"></script>
 <script>
+// Matrix effect
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
 
@@ -483,10 +626,38 @@ function draw(){
     drops[i]++;
   }
 }
-setInterval(draw,50);
+setInterval(draw,60);
 
+// Fake ping counter
+function updatePing(){
+  const ping=Math.floor(Math.random()*20)+8; // 8-28ms
+  document.getElementById('pingValue').textContent=ping+'ms';
+}
+setInterval(updatePing,2000);
+
+// Update chart bars
+function updateChart(){
+  const bars=document.querySelectorAll('.chart-bar');
+  bars.forEach(bar=>{
+    const height=Math.floor(Math.random()*60)+30; // 30-90%
+    bar.style.height=height+'%';
+  });
+}
+setInterval(updateChart,3000);
+
+// Server status rotation
+const statuses=['ACTIVE','ONLINE','STABLE','SECURE'];
+let statusIndex=0;
+function updateServerStatus(){
+  statusIndex=(statusIndex+1)%statuses.length;
+  document.getElementById('serverStatus').textContent=statuses[statusIndex];
+}
+setInterval(updateServerStatus,4000);
+
+// Auth check
 if(localStorage.getItem('authToken')) window.location.href='index.html';
 
+// Login form
 document.getElementById('loginForm').addEventListener('submit',async(e)=>{
   e.preventDefault();
   const username=document.getElementById('username').value.trim();
