@@ -32,9 +32,9 @@ body::before{
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
-  background:url('https://files.catbox.moe/tw8ovl.jpeg') center/cover no-repeat fixed;
+  background:url('https://files.catbox.moe/mzhj99.jpeg') center/cover no-repeat fixed;
   z-index:1;
-  filter:brightness(0.5) contrast(1.1);
+  filter:brightness(0.65) contrast(1.05);
 }
 
 body::after{
@@ -42,7 +42,7 @@ body::after{
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
-  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.02), transparent 60%);
+  background:radial-gradient(circle at 50% 50%, rgba(0,229,255,0.015), transparent 65%);
   z-index:2;
 }
 
@@ -52,7 +52,7 @@ canvas#bg{
   width:100%;height:100%;
   z-index:3;
   pointer-events:none;
-  opacity:0.25;
+  opacity:0.2;
 }
 
 .status-bar{
@@ -66,12 +66,12 @@ canvas#bg{
 }
 
 .status-card{
-  background:rgba(10,10,20,0.5);
+  background:rgba(5,5,15,0.4);
   backdrop-filter:blur(15px);
   border:1px solid rgba(0,229,255,0.15);
   border-radius:12px;
-  padding:12px 16px;
-  min-width:200px;
+  padding:14px 18px;
+  min-width:220px;
   box-shadow:0 4px 16px rgba(0,0,0,0.4);
 }
 
@@ -79,73 +79,79 @@ canvas#bg{
   display:flex;
   align-items:center;
   gap:8px;
-  margin-bottom:8px;
+  margin-bottom:10px;
   font-size:11px;
   font-weight:600;
   letter-spacing:1px;
-  color:rgba(255,255,255,0.6);
+  color:rgba(255,255,255,0.5);
   text-transform:uppercase;
 }
 
 .online-indicator{
   display:flex;
   align-items:center;
-  gap:8px;
-  font-size:14px;
+  gap:10px;
+  font-size:15px;
   font-weight:700;
   color:#00ff96;
 }
 
 .pulse-dot{
-  width:8px;
-  height:8px;
+  width:9px;
+  height:9px;
   background:#00ff96;
   border-radius:50%;
-  box-shadow:0 0 10px #00ff96;
+  box-shadow:0 0 12px #00ff96;
   animation:pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot{
   0%,100%{opacity:1;transform:scale(1);}
-  50%{opacity:0.6;transform:scale(1.2);}
+  50%{opacity:0.5;transform:scale(1.3);}
 }
 
 .ping-value{
   font-family:'Orbitron',sans-serif;
-  color:rgba(255,255,255,0.5);
-  font-size:12px;
+  color:rgba(255,255,255,0.6);
+  font-size:13px;
   margin-left:auto;
 }
 
-.server-status{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-top:4px;
-  padding-top:8px;
+.server-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+  padding-top:10px;
   border-top:1px solid rgba(255,255,255,0.05);
 }
 
-.server-label{
-  font-size:11px;
-  color:rgba(255,255,255,0.5);
+.stat-item{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.stat-label{
+  font-size:10px;
+  color:rgba(255,255,255,0.45);
   text-transform:uppercase;
   letter-spacing:0.5px;
 }
 
-.server-value{
+.stat-value{
   font-family:'Orbitron',sans-serif;
-  font-size:12px;
+  font-size:13px;
   color:#00e5ff;
   font-weight:600;
 }
 
 .mini-chart{
-  background:rgba(10,10,20,0.5);
+  background:rgba(5,5,15,0.4);
   backdrop-filter:blur(15px);
   border:1px solid rgba(0,229,255,0.15);
   border-radius:12px;
-  padding:16px;
+  padding:14px 18px;
   box-shadow:0 4px 16px rgba(0,0,0,0.4);
   min-width:220px;
 }
@@ -154,28 +160,35 @@ canvas#bg{
   font-size:11px;
   font-weight:600;
   letter-spacing:1px;
-  color:rgba(255,255,255,0.6);
+  color:rgba(255,255,255,0.5);
   text-transform:uppercase;
-  margin-bottom:12px;
+  margin-bottom:8px;
   display:flex;
   align-items:center;
-  gap:6px;
+  justify-content:space-between;
+}
+
+.chart-time{
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;
+  color:rgba(255,255,255,0.4);
 }
 
 .chart-bars{
   display:flex;
   align-items:flex-end;
   justify-content:space-between;
-  height:50px;
-  gap:4px;
+  height:55px;
+  gap:3px;
+  margin-top:10px;
 }
 
 .chart-bar{
   flex:1;
   background:linear-gradient(180deg, rgba(0,229,255,0.6), rgba(0,229,255,0.2));
   border-radius:3px 3px 0 0;
-  min-width:8px;
-  transition:all 0.5s ease;
+  min-width:6px;
+  transition:all 0.8s ease;
   position:relative;
 }
 
@@ -191,15 +204,15 @@ canvas#bg{
 }
 
 .card{
-  background:rgba(10,10,20,0.5);
-  backdrop-filter:blur(20px) saturate(150%);
-  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  background:rgba(5,5,15,0.35);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
   border:1px solid rgba(0,229,255,0.2);
   border-radius:20px;
-  padding:35px 25px 30px;
+  padding:40px 28px 32px;
   box-shadow:0 8px 32px rgba(0,0,0,0.5),
              0 0 0 1px rgba(255,255,255,0.03) inset,
-             0 0 40px rgba(0,229,255,0.1);
+             0 0 40px rgba(0,229,255,0.08);
   position:relative;
   overflow:hidden;
 }
@@ -209,9 +222,9 @@ canvas#bg{
   position:absolute;
   top:-50%;left:-50%;
   width:200%;height:200%;
-  background:linear-gradient(45deg, transparent, rgba(0,229,255,0.02), transparent);
+  background:linear-gradient(45deg, transparent, rgba(0,229,255,0.015), transparent);
   transform:rotate(45deg);
-  animation:shimmer 8s infinite;
+  animation:shimmer 10s infinite;
 }
 
 @keyframes shimmer{
@@ -221,49 +234,21 @@ canvas#bg{
 
 .header{
   text-align:center;
-  margin-bottom:30px;
+  margin-bottom:35px;
   position:relative;
-}
-
-.logo-container{
-  display:inline-block;
-  position:relative;
-  margin-bottom:15px;
-}
-
-.logo-ring{
-  width:90px;
-  height:90px;
-  border:2px solid rgba(0,229,255,0.4);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 20px;
-  position:relative;
-  background:rgba(0,229,255,0.05);
-  box-shadow:0 0 20px rgba(0,229,255,0.2);
-}
-
-.logo-ring img{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid rgba(0,229,255,0.3);
 }
 
 .site-title{
   font-family:'Orbitron',sans-serif;
-  font-size:32px;
+  font-size:36px;
   font-weight:900;
-  letter-spacing:4px;
+  letter-spacing:5px;
   background:linear-gradient(135deg, #00e5ff 0%, #7c4dff 50%, #00e5ff 100%);
   background-size:200% auto;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
-  margin-bottom:8px;
+  margin-bottom:12px;
   animation:gradientShift 4s linear infinite;
 }
 
@@ -281,16 +266,16 @@ canvas#bg{
   font-weight:700;
   letter-spacing:2px;
   color:#00e5ff;
-  background:rgba(0,229,255,0.1);
-  border:1px solid rgba(0,229,255,0.3);
-  padding:6px 14px;
+  background:rgba(0,229,255,0.08);
+  border:1px solid rgba(0,229,255,0.25);
+  padding:6px 16px;
   border-radius:20px;
 }
 
 .divider{
   height:1px;
   background:linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
-  margin:25px 0;
+  margin:28px 0;
 }
 
 .subtitle{
@@ -311,7 +296,7 @@ canvas#bg{
 .input-wrapper{
   display:flex;
   align-items:center;
-  background:rgba(255,255,255,0.03);
+  background:rgba(255,255,255,0.025);
   backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,0.08);
   border-radius:12px;
@@ -323,12 +308,12 @@ canvas#bg{
 }
 
 .input-wrapper:hover{
-  background:rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.04);
   border-color:rgba(0,229,255,0.2);
 }
 
 .input-wrapper:focus-within{
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.06);
   border-color:rgba(0,229,255,0.5);
   box-shadow:0 0 0 3px rgba(0,229,255,0.1);
 }
@@ -476,20 +461,21 @@ button span{
   .online-indicator{
     font-size:12px;
   }
-  .ping-value,.server-value{
-    font-size:10px;
+  .ping-value,.stat-value{
+    font-size:11px;
   }
   .chart-bars{
-    height:35px;
+    height:40px;
+  }
+  .server-stats{
+    gap:6px;
   }
 }
 
 @media (max-width:480px){
   body{padding:10px;}
-  .card{padding:30px 20px 25px;}
-  .site-title{font-size:26px;letter-spacing:3px;}
-  .logo-ring{width:80px;height:80px;}
-  .logo-ring img{width:60px;height:60px;}
+  .card{padding:32px 22px 28px;}
+  .site-title{font-size:28px;letter-spacing:3px;}
   .version-badge{font-size:10px;padding:5px 12px;}
   .input-wrapper{height:48px;padding:0 14px;}
   button{padding:14px;font-size:13px;}
@@ -501,7 +487,7 @@ button span{
 
 @media (max-width:360px){
   .site-title{font-size:24px;letter-spacing:2px;}
-  .card{padding:25px 18px 22px;}
+  .card{padding:28px 20px 25px;}
 }
 </style>
 </head>
@@ -511,34 +497,46 @@ button span{
 <div class="status-bar">
   <div class="status-card">
     <div class="status-header">
-      <i class="fas fa-signal"></i>
-      <span>Status</span>
+      <i class="fas fa-server"></i>
+      <span>System Status</span>
     </div>
     <div class="online-indicator">
       <div class="pulse-dot"></div>
       <span>ONLINE</span>
-      <span class="ping-value" id="pingValue">12ms</span>
+      <span class="ping-value" id="pingValue">42ms</span>
     </div>
-    <div class="server-status">
-      <span class="server-label">Server</span>
-      <span class="server-value" id="serverStatus">ACTIVE</span>
+    <div class="server-stats">
+      <div class="stat-item">
+        <span class="stat-label">Uptime</span>
+        <span class="stat-value" id="uptime">99.8%</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Load</span>
+        <span class="stat-value" id="cpuLoad">23%</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Region</span>
+        <span class="stat-value">US-East</span>
+      </div>
     </div>
   </div>
   
   <div class="mini-chart">
     <div class="chart-header">
-      <i class="fas fa-chart-line"></i>
-      <span>Activity</span>
+      <span><i class="fas fa-chart-line"></i> Traffic</span>
+      <span class="chart-time" id="chartTime">Live</span>
     </div>
     <div class="chart-bars" id="chartBars">
       <div class="chart-bar" style="height:45%"></div>
-      <div class="chart-bar" style="height:65%"></div>
-      <div class="chart-bar" style="height:35%"></div>
-      <div class="chart-bar" style="height:80%"></div>
+      <div class="chart-bar" style="height:62%"></div>
+      <div class="chart-bar" style="height:38%"></div>
+      <div class="chart-bar" style="height:75%"></div>
+      <div class="chart-bar" style="height:58%"></div>
+      <div class="chart-bar" style="height:68%"></div>
+      <div class="chart-bar" style="height:82%"></div>
       <div class="chart-bar" style="height:55%"></div>
       <div class="chart-bar" style="height:70%"></div>
-      <div class="chart-bar" style="height:90%"></div>
-      <div class="chart-bar" style="height:60%"></div>
+      <div class="chart-bar" style="height:48%"></div>
     </div>
   </div>
 </div>
@@ -546,19 +544,16 @@ button span{
 <div class="container">
   <div class="card">
     <div class="header">
-      <div class="logo-ring">
-        <img src="https://i.imgur.com/BpBph7h.jpeg" alt="Avatar">
-      </div>
       <div class="site-title">AZREAL V5</div>
       <div class="version-badge">
-        <span>BETA</span>
+        <span>BETA ACCESS</span>
       </div>
     </div>
     
     <div class="divider"></div>
     
     <div class="subtitle">
-      <i class="fas fa-lock"></i> Secure Access Portal
+      <i class="fas fa-shield-halved"></i> Secure Authentication Portal
     </div>
     
     <form id="loginForm">
@@ -620,7 +615,7 @@ function draw(){
   ctx.font=fontSize+"px 'Courier New', monospace";
   
   for(let i=0;i<drops.length;i++){
-    const text=chars.charAt(Math.floor(Math.random()*chars.length));
+    const text=chars.charAt(Math.random()*chars.length);
     ctx.fillText(text,i*fontSize,drops[i]*fontSize);
     if(drops[i]*fontSize>canvas.height&&Math.random()>0.98) drops[i]=0;
     drops[i]++;
@@ -628,31 +623,47 @@ function draw(){
 }
 setInterval(draw,60);
 
-// Fake ping counter
+// Realistic ping counter (fluctuates between 35-65ms)
+let currentPing=42;
 function updatePing(){
-  const ping=Math.floor(Math.random()*20)+8; // 8-28ms
-  document.getElementById('pingValue').textContent=ping+'ms';
+  const change=Math.random()>0.5?1:-1;
+  const variance=Math.floor(Math.random()*5);
+  currentPing=Math.max(35,Math.min(65,currentPing+(change*variance)));
+  document.getElementById('pingValue').textContent=currentPing+'ms';
 }
-setInterval(updatePing,2000);
+setInterval(updatePing,3000);
 
-// Update chart bars
+// Realistic uptime (stays between 99.6-99.9%)
+let uptime=99.8;
+function updateUptime(){
+  const change=(Math.random()-0.5)*0.1;
+  uptime=Math.max(99.6,Math.min(99.9,uptime+change));
+  document.getElementById('uptime').textContent=uptime.toFixed(1)+'%';
+}
+setInterval(updateUptime,10000);
+
+// Realistic CPU load (fluctuates 15-45%)
+let cpuLoad=23;
+function updateCPU(){
+  const change=(Math.random()-0.5)*8;
+  cpuLoad=Math.max(15,Math.min(45,cpuLoad+change));
+  document.getElementById('cpuLoad').textContent=Math.round(cpuLoad)+'%';
+}
+setInterval(updateCPU,5000);
+
+// Realistic chart bars (smooth traffic pattern)
+let chartValues=[45,62,38,75,58,68,82,55,70,48];
 function updateChart(){
   const bars=document.querySelectorAll('.chart-bar');
-  bars.forEach(bar=>{
-    const height=Math.floor(Math.random()*60)+30; // 30-90%
-    bar.style.height=height+'%';
+  chartValues.shift();
+  const newVal=Math.max(25,Math.min(95,chartValues[chartValues.length-1]+(Math.random()-0.5)*30));
+  chartValues.push(newVal);
+  
+  bars.forEach((bar,i)=>{
+    bar.style.height=chartValues[i]+'%';
   });
 }
-setInterval(updateChart,3000);
-
-// Server status rotation
-const statuses=['ACTIVE','ONLINE','STABLE','SECURE'];
-let statusIndex=0;
-function updateServerStatus(){
-  statusIndex=(statusIndex+1)%statuses.length;
-  document.getElementById('serverStatus').textContent=statuses[statusIndex];
-}
-setInterval(updateServerStatus,4000);
+setInterval(updateChart,4000);
 
 // Auth check
 if(localStorage.getItem('authToken')) window.location.href='index.html';
